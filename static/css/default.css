@@ -7,50 +7,12 @@ ul {
 /* End reset rules */
 a:hover { text-decoration: none;}
 
-/* header */
-#header .logo {
-    background: url('../images/logo.png') no-repeat 0 0;
-    width: 48px;
-    height: 48px;
-    display: block;
-}
-
-#header img.mugshot {
-	width: 24px;
-	margin-top: -8px;
-	margin-bottom: -8px;
-}
-
-#content>h1 {
-    color: #363636;
-    font-size: 25px;
-    text-align: center;
-}
-
-#content #details { padding: 5px 10px; }
-#content #details .picture {
-	float: left;
-	width: 100px;
-	text-align: center;
-}
-
-#content #details .details {
-	float: left;
-	width: 100px;
-	padding: 5px 10px;
-	min-height: 400px;
-}
-
-#content #details dt { font-weight: bold; width: 150px; float: left; }
-#content #details dd { margin-bottom: 10px; }
-
 #footer {
     height: 32px;
     text-align: center;
     padding: 10px 5px;
-    margin-top: 20px;
+    margin: 20px;
 }
-
 
 .sample {
     display: none;
@@ -58,5 +20,5 @@ a:hover { text-decoration: none;}
 #content .last_updated { margin: 0px 0px 15px 0px }
 #content .movie { margin-bottom: 30px;}
 #content .movie li { margin: 10px 0px;}
-#content .movie .image-holder { padding-right: 15px;}
+#content .movie .image-holder { padding-right: 15px; }
 #content .movie li.title { font-weight: bold; font-size: 20px; }
