@@ -1,26 +1,34 @@
 function parseTime (datetime) {
     date = new Date(datetime);
     // Date
-    day = date.getDate();
-    year = date.getFullYear();
+    day   = date.getDate();
+    //year  = date.getFullYear();
     month = date.getMonth()+1;
-    if (month == 13)
-        month = 1;
-    if (month < 10)
-        month = '0' + month;
+
 
     // Time
-    hours = date.getHours()
-    mins = date.getMinutes()
+    hours   = date.getHours()
+    minutes = date.getMinutes()
 
-    return day+'/'+month+'/'+year+' às '+hours+':'+mins;
+    // Fix JS Date for months
+    if (month == 13)
+        month = 1;
+
+    // Adding leading zeroes
+    if (day < 10) day = '0' + day;
+    if (month < 10) month = '0' + month;
+    if (hours < 10) hours = '0' + hours;
+    if (minutes < 10) minutes = '0' + minutes;
+
+    return day+'/'+month+' às '+hours+':'+minutes;
 }
 $.ajax({
     url:"https://www.kimonolabs.com/api/6ow96xb4?apikey=e510672bdd47929278ab230f75afce92&kimmodify=1",
     crossDomain: true,
     dataType: "jsonp",
     success: function (response) {
-        $('.last_updated_time').text(parseTime(response.lastsuccess));
+        upd_txt = parseTime(response.lastsuccess) + ' (Próx.: '+ parseTime(response.nextrun) +')';
+        $('.last_updated_time').text(upd_txt);
 
         movies = response.results.movies;
         for (var i = movies.length - 1; i >= 0; i--) {
