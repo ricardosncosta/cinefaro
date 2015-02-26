@@ -26,5 +26,7 @@ a:hover { text-decoration: none;}
 }
 #content .movie li:first-child { margin-top: 0px; margin-bottom: 10px;}
 #content .movie li { margin: 10px 0px;}
-#content .movie .image-holder { padding-right: 15px;  margin-bottom: 10px; }
+#content .movie .image-holder { padding-right: 15px;  margin-bottom: 10px; width: 175px;}
+/* .image: you can use % */
+#content .movie .image-holder .image { width:175px; height: auto; }
 #content .movie li.title { font-weight: bold; font-size: 20px; }
