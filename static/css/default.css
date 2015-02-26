@@ -18,7 +18,13 @@ a:hover { text-decoration: none;}
     display: none;
 }
 #content .last_updated { margin: 0px 0px 15px 0px }
-#content .movie { margin-bottom: 30px;}
+#content .movie {
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: #EEE;
+    border-radius: 10px;
+}
+#content .movie li:first-child { margin-top: 0px; margin-bottom: 10px;}
 #content .movie li { margin: 10px 0px;}
-#content .movie .image-holder { padding-right: 15px; }
+#content .movie .image-holder { padding-right: 15px;  margin-bottom: 10px; }
 #content .movie li.title { font-weight: bold; font-size: 20px; }
