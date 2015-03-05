@@ -51,7 +51,7 @@ $.ajax({
                 if (movies[i].time != '')
                     holder.find('.sessions').text('Sessões: ' + movies[i].time);
 
-                html += '<div class="movie row">'+holder.html()+'</div>'
+                html += '<div class="movie row">'+holder.html()+'</div>';
             };
 
             $('#content').append(html);
