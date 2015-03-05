@@ -31,25 +31,30 @@ $.ajax({
         $('.last_updated_time').text(upd_txt);
 
         movies = response.results.movies;
-        for (var i = movies.length - 1; i >= 0; i--) {
-            holder = $('.sample').clone();
-            holder.removeClass('sample');
-            holder.addClass('movie');
-            // Image
-            holder.find('.image').attr('src', movies[i].image.src);
+        if (response.results.movies.length > 0) {
+            html = '';
+            for (var i = movies.length - 1; i >= 0; i--) {
+                holder = $('.sample').clone();
+                holder.removeClass('sample');
+                holder.addClass('movie');
+                // Image
+                holder.find('.image').attr('src', movies[i].image.src);
 
-            holder.find('.title').text(movies[i].title);
-            holder.find('.genre').text(movies[i].genre);
-            holder.find('.director').text(movies[i].director);
-            holder.find('.actors').text(movies[i].actors);
-            holder.find('.duration').text(movies[i].duration);
-            holder.find('.synopsis').text(movies[i].synopsis);
-            holder.find('.room').text(movies[i].room);
+                holder.find('.title').text(movies[i].title);
+                holder.find('.genre').text(movies[i].genre);
+                holder.find('.director').text(movies[i].director);
+                holder.find('.actors').text(movies[i].actors);
+                holder.find('.duration').text(movies[i].duration);
+                holder.find('.synopsis').text(movies[i].synopsis);
+                holder.find('.room').text(movies[i].room);
 
-            if (movies[i].time != '')
-                holder.find('.sessions').text('Sessões: ' + movies[i].time);
-            holder.wrap('<div class="row"></div>')
-            $('#content').append(holder)
+                if (movies[i].time != '')
+                    holder.find('.sessions').text('Sessões: ' + movies[i].time);
+
+                html += '<div class="movie row">'+holder.html()+'</div>'
+            };
+
+            $('#content').append(html);
         };
     },
     error: function (xhr, status) {
