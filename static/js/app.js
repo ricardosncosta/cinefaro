@@ -64,9 +64,11 @@ $.ajax({
                         buyUrl = buyUrl.replace(/cinema.jsp/g, 'sessao.jsp');
                         holder.find('.sessions a.buy').attr('href', buyUrl);
 
-                        sessions = cinemas[c].sessions;
-                        holder.find('.sessions span.times').text('Sessões: ' + sessions.text.replace(/Comprar Bilhete/g, ''));
-                        holder.find('.room').text(cinemas[c].room);
+                        times = cinemas[c].sessions.text.replace(/Comprar Bilhete/g, '')
+                        times = times.replace(/\n/g, '')
+                        times = times.replace(/\|/g, ', ')
+                        holder.find('.sessions span.times').text('Sessões: ' + times);
+                        holder.find('.room').text(cinemas[c].room.replace(' ', ': '));
                     }
                 }
 
