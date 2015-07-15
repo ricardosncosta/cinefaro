@@ -23,7 +23,7 @@ function parseTime (datetime) {
     return day+'/'+month+' às '+hours+':'+minutes;
 }
 $.ajax({
-    url:"https://www.kimonolabs.com/api/6ow96xb4?apikey=e510672bdd47929278ab230f75afce92&kimmodify=1",
+    url:"https://www.kimonolabs.com/api/6ow96xb4?apikey=e510672bdd47929278ab230f75afce92",
     crossDomain: true,
     dataType: "jsonp",
     success: function (response) {
@@ -33,23 +33,44 @@ $.ajax({
         movies = response.results.movies;
         if (response.results.movies.length > 0) {
             html = '';
+            defaultImage = 'static/images/cinema.png';
+
             for (var i = movies.length - 1; i >= 0; i--) {
                 holder = $('.sample').clone();
                 holder.removeClass('sample');
                 holder.addClass('movie');
-                // Image
-                holder.find('.image').attr('src', movies[i].image.src);
 
+                // Image
+                if (movies[i].image.src != undefined) {
+                    holder.find('.image').attr('src', movies[i].image.src);
+                } else {
+                    holder.find('.image').attr('src', defaultImage);
+                }
+
+                // Data
                 holder.find('.title').text(movies[i].title);
                 holder.find('.genre').text(movies[i].genre);
                 holder.find('.director').text(movies[i].director);
                 holder.find('.actors').text(movies[i].actors);
                 holder.find('.duration').text(movies[i].duration);
+                holder.find('.debut').text(movies[i].debut);
+                holder.find('.original_title').text(movies[i].original_title);
                 holder.find('.synopsis').text(movies[i].synopsis);
-                holder.find('.room').text(movies[i].room);
 
-                if (movies[i].time != '')
-                    holder.find('.sessions').text('Sessões: ' + movies[i].time);
+                cinemas = response.results.cinemas
+                for (var c = 0; c < cinemas.length - 1; c++) {
+                    if (cinemas[c].url == movies[i].url && cinemas[c].name == 'Forum Algarve') {
+                        buyUrl = movies[i].buy_ticket_url+'&CinemaId=FA';
+                        buyUrl = buyUrl.replace(/cinema.jsp/g, 'sessao.jsp');
+                        holder.find('.sessions a.buy').attr('href', buyUrl);
+
+                        sessions = cinemas[c].sessions;
+                        holder.find('.sessions span.times').text('Sessões: ' + sessions.text.replace(/Comprar Bilhete/g, ''));
+                        holder.find('.room').text(cinemas[c].room);
+                    }
+                }
+
+                //holder.find('.sessions').text('Sessões: ' + movies[i].time);
 
                 html += '<div class="movie row">'+holder.html()+'</div>';
             };
