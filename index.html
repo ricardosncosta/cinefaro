@@ -5,7 +5,7 @@
         <!-- SEO -->
         <title>CineFaro</title>
 
-        <meta name="keywords" content="Contact,Central,Mobile,General,Android,iPhone">
+        <meta name="keywords" content="Cinema, Portugal, Faro, Contact,Central,Mobile,General,Android,iPhone">
         <meta name="author" content="Ambrosia">
         <meta name="copyright" content="©2014 Ambrosia,Inc.">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -16,9 +16,8 @@
 
         <!-- Styles, Favicon -->
         <link href="static/images/favicon.ico" rel="icon" type="image/x-icon" />
-        <link href="http://netdna.bootstrapcdn.com/bootswatch/3.1.1/cerulean/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="static/css/default.css" type="text/css" media="screen" title="no title" charset="utf-8" />
-        <link rel="stylesheet" href="static/css/bootstrap.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+        <link rel="stylesheet" href="https://bootswatch.com/cerulean/bootstrap.min.css" type="text/css" media="screen" charset="utf-8">
+        <link rel="stylesheet" href="static/css/default.css" type="text/css" media="screen" charset="utf-8" />
 
         <!-- scripts -->
         <script type="text/javascript" src="static/js/jquery-1.11.0.min.js"></script>
@@ -29,44 +28,34 @@
         <![endif]-->
     </head>
     <body>
-        <div class="container-fluid">
+        <div class="container">
             <header id="header">
                     <nav class="navbar navbar-default" role="navigation">
                         <div class="container">
                             <div class="navbar-header">
-
-                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#top-navbar-collapse-1">
-                                    <span class="sr-only">Toggle navigation</span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
-
                                 <a class="navbar-brand" href="{% url 'home' %}">CineFaro</a>
                             </div>
 
-
                             <div class="collapse navbar-collapse" id="top-navbar-collapse-1">
-                                    <ul class="nav navbar-nav navbar-right">
-                                        <li><a href="{% url 'account:signup' %}" class=""></a></li>
-                                        <li>
-                                            <a href="{% url 'account:signin' %}" class=""></a>
-                                        </li>
-                                    </ul>
-
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li><a href="{% url 'account:signup' %}" class=""></a></li>
+                                    <li>
+                                        <a href="{% url 'account:signin' %}" class=""></a>
+                                    </li>
+                                </ul>
                             </div><!-- /.navbar-collapse -->
                         </div>
                     </nav>
             </header><!-- end #header -->
         </div>
 
-        <div class="container-fluid">
+        <div class="container">
             <div id="content">
                 <div class="last_updated">Actualizado: <span class="last_updated_time">Recebendo...</span></div>
             </div><!-- end #content -->
         </div><!-- end .wrapper -->
 
-        <div class="container-fluid">
+        <div class="container">
             <footer id="footer">
                 <nav>
                     <ul class="list-inline">
@@ -78,6 +67,8 @@
                 </nav>
             </footer>
         </div>
+
+        <!-- HTML base sample -->
         <div class="sample">
             <div class="image-holder pull-left .col-xs-2"><img class="image img-responsive img-rounded" src="" /></div>
             <div class="data-holder .col-xs-10">

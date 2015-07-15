@@ -1,4 +1,9 @@
-ul {
+#content .row {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.movie ul {
 	margin: 0;
 	padding: 0;
 	list-style: none;
