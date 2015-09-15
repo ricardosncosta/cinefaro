@@ -5,10 +5,9 @@ function parseTime (datetime) {
     //year  = date.getFullYear();
     month = date.getMonth()+1;
 
-
     // Time
-    hours   = date.getHours()
-    minutes = date.getMinutes()
+    hours   = date.getHours();
+    minutes = date.getMinutes();
 
     // Fix JS Date for months
     if (month == 13)
@@ -22,6 +21,7 @@ function parseTime (datetime) {
 
     return day+'/'+month+' às '+hours+':'+minutes;
 }
+
 $.ajax({
     url:"https://www.kimonolabs.com/api/6ow96xb4?apikey=e510672bdd47929278ab230f75afce92",
     crossDomain: true,
@@ -41,7 +41,7 @@ $.ajax({
                 holder.addClass('movie');
 
                 // Image
-                if (movies[i].image.src != undefined) {
+                if (movies[i].image.src !== undefined) {
                     holder.find('.image').attr('src', movies[i].image.src);
                 } else {
                     holder.find('.image').attr('src', defaultImage);
@@ -57,16 +57,16 @@ $.ajax({
                 holder.find('.original_title').text(movies[i].original_title);
                 holder.find('.synopsis').text(movies[i].synopsis);
 
-                cinemas = response.results.cinemas
+                cinemas = response.results.cinemas;
                 for (var c = 0; c < cinemas.length - 1; c++) {
                     if (cinemas[c].url == movies[i].url && cinemas[c].name == 'Forum Algarve') {
                         buyUrl = movies[i].buy_ticket_url+'&CinemaId=FA';
                         buyUrl = buyUrl.replace(/cinema.jsp/g, 'sessao.jsp');
                         holder.find('.sessions a.buy').attr('href', buyUrl);
 
-                        times = cinemas[c].sessions.text.replace(/Comprar Bilhete/g, '')
-                        times = times.replace(/\n/g, '')
-                        times = times.replace(/\|/g, ', ')
+                        times = cinemas[c].sessions.text.replace(/Comprar Bilhete/g, '');
+                        times = times.replace(/\n/g, '');
+                        times = times.replace(/\|/g, ', ');
                         holder.find('.sessions span.times').text('Sessões: ' + times);
                         holder.find('.room').text(cinemas[c].room.replace(' ', ': '));
                     }
@@ -75,12 +75,19 @@ $.ajax({
                 //holder.find('.sessions').text('Sessões: ' + movies[i].time);
 
                 html += '<div class="movie row">'+holder.html()+'</div>';
-            };
+            }
 
             $('#content').append(html);
-        };
+        }
     },
     error: function (xhr, status) {
         //handle errors
     }
 });
+
+    console.log('On!');
+    $('#content').on('click', '.movie', function(e) {
+        console.log($(this));
+        $(this).find('.moreinfo').toggle();
+        //e.preventDefault();
+    });

@@ -28,9 +28,10 @@ a:hover { text-decoration: none;}
     padding: 15px;
     background-color: #EEE;
     border-radius: 10px;
+	cursor: pointer;
 }
 #content .movie li:first-child { margin-top: 0px; margin-bottom: 10px;}
-#content .movie li { margin: 6px 0px;}
+#content .movie li.title { font-weight: bold; font-size: 20px; }
 #content .movie .image-holder { padding-right: 15px;  margin-bottom: 5px; width: 165px;}
 #content .movie .image-holder .image { width:165px; height: auto; }
-#content .movie li.title { font-weight: bold; font-size: 20px; }
+#content .movie ul.moreinfo { display: none; }
