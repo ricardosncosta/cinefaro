@@ -85,9 +85,8 @@ $.ajax({
     }
 });
 
-    console.log('On!');
-    $('#content').on('click', '.movie', function(e) {
-        console.log($(this));
-        $(this).find('.moreinfo').toggle();
-        //e.preventDefault();
-    });
+$('#content').on('click', '.movie', function(e) {
+    console.log($(this));
+    $(this).find('.moreinfo').toggle();
+    //e.preventDefault();
+});
