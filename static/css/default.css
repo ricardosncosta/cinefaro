@@ -1,0 +1,52 @@
+#content .row {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.movie ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* End reset rules */
+a:hover { text-decoration: none;}
+
+#footer {
+    height: 32px;
+    text-align: center;
+    padding: 10px 5px;
+    margin: 20px;
+}
+
+.sample {
+    display: none;
+}
+#content .last_updated { margin: 0px 0px 15px 0px }
+#content .movie {
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: #EEE;
+    border-radius: 10px;
+	cursor: pointer;
+}
+#content .movie li:first-child { margin-top: 0px; margin-bottom: 10px;}
+#content .movie li.title { font-weight: bold; font-size: 20px; }
+#content .movie .image-holder { padding-right: 15px;  margin-bottom: 5px; width: 165px;}
+#content .movie .image-holder .image { width:165px; height: auto; }
+#content .movie ul.moreinfo { display: none; }
+
+.glyphicon.spinning {
+    animation: spin 1s infinite linear;
+    -webkit-animation: spin2 1s infinite linear;
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg); }
+    to { transform: scale(1) rotate(360deg); }
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
