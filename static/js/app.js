@@ -1,92 +1,113 @@
-function parseTime (datetime) {
-    date = new Date(datetime);
-    // Date
-    day   = date.getDate();
-    //year  = date.getFullYear();
-    month = date.getMonth()+1;
-
-    // Time
-    hours   = date.getHours();
-    minutes = date.getMinutes();
-
-    // Fix JS Date for months
-    if (month == 13)
-        month = 1;
-
-    // Adding leading zeroes
-    if (day < 10) day = '0' + day;
-    if (month < 10) month = '0' + month;
-    if (hours < 10) hours = '0' + hours;
-    if (minutes < 10) minutes = '0' + minutes;
-
-    return day+'/'+month+' às '+hours+':'+minutes;
-}
-
-$.ajax({
-    url:"https://www.kimonolabs.com/api/6ow96xb4?apikey=e510672bdd47929278ab230f75afce92",
-    crossDomain: true,
-    dataType: "jsonp",
-    success: function (response) {
-        upd_txt = parseTime(response.lastsuccess) + ' (Próx.: '+ parseTime(response.nextrun) +')';
-        $('.last_updated_time').text(upd_txt);
-
-        movies = response.results.movies;
-        if (response.results.movies.length > 0) {
-            html = '';
-            defaultImage = 'static/images/cinema.png';
-
-            for (var i = movies.length - 1; i >= 0; i--) {
-                holder = $('.sample').clone();
-                holder.removeClass('sample');
-                holder.addClass('movie');
-
-                // Image
-                if (movies[i].image.src !== undefined) {
-                    holder.find('.image').attr('src', movies[i].image.src);
-                } else {
-                    holder.find('.image').attr('src', defaultImage);
-                }
-
-                // Data
-                holder.find('.title').text(movies[i].title);
-                holder.find('.genre').text(movies[i].genre);
-                holder.find('.director').text(movies[i].director);
-                holder.find('.actors').text(movies[i].actors);
-                holder.find('.duration').text(movies[i].duration);
-                holder.find('.debut').text(movies[i].debut);
-                holder.find('.original_title').text(movies[i].original_title);
-                holder.find('.synopsis').text(movies[i].synopsis);
-
-                cinemas = response.results.cinemas;
-                for (var c = 0; c < cinemas.length - 1; c++) {
-                    if (cinemas[c].url == movies[i].url && cinemas[c].name == 'Forum Algarve') {
-                        buyUrl = movies[i].buy_ticket_url+'&CinemaId=FA';
-                        buyUrl = buyUrl.replace(/cinema.jsp/g, 'sessao.jsp');
-                        holder.find('.sessions a.buy').attr('href', buyUrl);
-
-                        times = cinemas[c].sessions.text.replace(/Comprar Bilhete/g, '');
-                        times = times.replace(/\n/g, '');
-                        times = times.replace(/\|/g, ', ');
-                        holder.find('.sessions span.times').text('Sessões: ' + times);
-                        holder.find('.room').text(cinemas[c].room.replace(' ', ': '));
-                    }
-                }
-
-                //holder.find('.sessions').text('Sessões: ' + movies[i].time);
-
-                html += '<div class="movie row">'+holder.html()+'</div>';
-            }
-
-            $('#content').append(html);
-        }
+var MovieBox = React.createClass({
+    loadDataFromServer: function() {
+        $.ajax({
+            url: this.props.url,
+            crossDomain: true,
+            dataType: "jsonp",
+            success: function (data) {
+                this.setState({ data: data.results });
+                $('.spinning').remove();
+            }.bind(this),
+            error: function (xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+            }.bind(this)
+        });
     },
-    error: function (xhr, status) {
-        //handle errors
+    getInitialState: function() {
+        return {data: {'movies': [], 'cinemas': []} };
+    },
+    componentDidMount: function() {
+        this.loadDataFromServer();
+    },
+    render: function() {
+        return (
+            <div>
+                <MovieList data={this.state.data} />
+            </div>
+        );
     }
 });
 
-$('#content').on('click', '.movie', function(e) {
-    console.log($(this));
-    $(this).find('.moreinfo').toggle();
-    //e.preventDefault();
+var MovieList = React.createClass({
+    render: function() {
+        var cinemas = this.props.data.cinemas;
+        var movies = this.props.data.movies;
+        var movieNodes = movies.map(function(movie) {
+            // Cinemas / Rooms / Sessions
+            for (var i = 0; i < cinemas.length - 1; i++) {
+                if (cinemas[i].url == movie.url && cinemas[i].name == 'Forum Algarve') {
+                    var times = cinemas[i].sessions.replace(/Comprar Bilhete/g, '');
+                    times = times.replace(/\n/g, '');
+                    movie.sessions = 'Sessões: ' + times.replace(/\|/g, ', ');
+                    movie.room = cinemas[i].room.replace(' ', ': ');
+                }
+            }
+
+            // Movies
+            movie.buy_ticket_url = movie.buy_ticket_url.replace(/cinema.jsp/g, 'sessao.jsp')+'&CinemaId=FA';
+            if (movie.image.src == '')
+                movie.image = 'static/images/cinema.png';
+
+            return (
+                <div className="movie">
+                    <Movie title={movie.title}
+                           room={movie.room}
+                           sessions={movie.sessions}
+                           original_title={movie.original_title}
+                           duration={movie.duration}
+                           genre={movie.genre}
+                           director={movie.director}
+                           actors={movie.actors}
+                           debug={movie.debut}
+                           synopsis={movie.synopsis}
+                           image={movie.image}
+                           buy_ticket_url={movie.buy_ticket_url}
+                    />
+                    <div className="clearfix"></div>
+                </div>
+            );
+        });
+        return (
+            <div>
+                {movieNodes}
+            </div>
+        );
+    }
 });
+
+var Movie = React.createClass({
+    render: function() {
+        return (
+            <div>
+                <div className="image-holder pull-left .col-xs-2">
+                    <img className="image img-responsive img-rounded" src={this.props.image} />
+                </div>
+                <div className="data-holder .col-xs-10">
+                    <ul>
+                        <li className="title">{this.props.title}</li>
+                        <li className="room">{this.props.room}</li>
+                        <li className="sessions">
+                            {this.props.sessions} | <a href={this.props.buy_ticket_url} className="buy">Comprar Bilhetes</a>
+                        </li>
+                        <li>
+                            <ul className="moreinfo">
+                                <li className="original_title">{this.props.original_title}</li>
+                                <li className="duration">{this.props.duration}</li>
+                                <li className="genre">{this.props.genre}</li>
+                                <li className="director">{this.props.director}</li>
+                                <li className="actors">{this.props.actors}</li>
+                                <li className="debut">{this.props.debut}</li>
+                                <li className="synopsis">{this.props.synopsis}</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        );
+    }
+});
+
+ReactDOM.render(
+  <MovieBox url="https://www.kimonolabs.com/api/6ow96xb4?&apikey=e510672bdd47929278ab230f75afce92" />,
+  document.getElementById('content')
+);
