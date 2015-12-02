@@ -3,7 +3,7 @@ var MovieBox = React.createClass({
         $.ajax({
             url: this.props.url,
             crossDomain: true,
-            dataType: "jsonp",
+            dataType: "json",
             success: function (data) {
                 this.setState({ data: data.results });
                 $('.spinning').remove();
@@ -14,7 +14,7 @@ var MovieBox = React.createClass({
         });
     },
     getInitialState: function() {
-        return {data: {'movies': [], 'cinemas': []} };
+        return {data: []};
     },
     componentDidMount: function() {
         this.loadDataFromServer();
@@ -30,19 +30,7 @@ var MovieBox = React.createClass({
 
 var MovieList = React.createClass({
     render: function() {
-        var cinemas = this.props.data.cinemas;
-        var movies = this.props.data.movies;
-        var movieNodes = movies.map(function(movie) {
-            // Cinemas / Rooms / Sessions
-            for (var i = 0; i < cinemas.length - 1; i++) {
-                if (cinemas[i].url == movie.url && cinemas[i].name == 'Forum Algarve') {
-                    var times = cinemas[i].sessions.replace(/Comprar Bilhete/g, '');
-                    times = times.replace(/\n/g, '');
-                    movie.sessions = 'Sessões: ' + times.replace(/\|/g, ', ');
-                    movie.room = cinemas[i].room.replace(' ', ': ');
-                }
-            }
-
+        var movieNodes = this.props.data.map(function(movie) {
             // Movies
             movie.buy_ticket_url = movie.buy_ticket_url.replace(/cinema.jsp/g, 'sessao.jsp')+'&CinemaId=FA';
             if (movie.image.src == '')
@@ -67,6 +55,7 @@ var MovieList = React.createClass({
                 </div>
             );
         });
+
         return (
             <div>
                 {movieNodes}
@@ -108,6 +97,6 @@ var Movie = React.createClass({
 });
 
 ReactDOM.render(
-  <MovieBox url="https://www.kimonolabs.com/api/6ow96xb4?&apikey=e510672bdd47929278ab230f75afce92" />,
+  <MovieBox url="https://www.kimonolabs.com/api/6ow96xb4?&apikey=e510672bdd47929278ab230f75afce92&kimmodify=1" />,
   document.getElementById('content')
 );
